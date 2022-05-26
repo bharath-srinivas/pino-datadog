@@ -76,9 +76,9 @@ test('inserts sends com url and api key', async t => {
   t.ok(stubPost.called)
   t.ok(
     stubPost.calledWithMatch(
-      'https://http-intake.logs.datadoghq.com/v1/input/1234567890',
+      'https://http-intake.logs.datadoghq.com/api/v2/logs',
       items,
-      { params: {} }
+      { headers: { 'DD-API-KEY': '1234567890' }, params: {} }
     )
   )
   stubPost.restore()
@@ -94,9 +94,9 @@ test('inserts sends eu url and api key', async t => {
   t.ok(stubPost.called)
   t.ok(
     stubPost.calledWithMatch(
-      'https://http-intake.logs.datadoghq.eu/v1/input/1234567890',
+      'https://http-intake.logs.datadoghq.eu/api/v2/logs',
       items,
-      { params: {} }
+      { headers: { 'DD-API-KEY': '1234567890' }, params: {} }
     )
   )
   stubPost.restore()
@@ -118,9 +118,12 @@ test('inserts sends extra parameters ', async t => {
   t.ok(stubPost.called)
   t.ok(
     stubPost.calledWithMatch(
-      'https://http-intake.logs.datadoghq.com/v1/input/1234567890',
+      'https://http-intake.logs.datadoghq.com/api/v2/logs',
       items,
       {
+        headers: {
+          'DD-API-KEY': '1234567890'
+        },
         params: {
           ddsource: 'source',
           ddtags: 'tag-1,tag-2,tag-3',

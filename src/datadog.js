@@ -31,8 +31,13 @@ class Client {
         params.hostname = this._options.hostname
       }
 
-      const url = `${domain}/v1/input/${this._options.apiKey}`
-      const result = await axios.post(url, data, { params })
+      const headers = {}
+      if (this._options.apiKey) {
+        headers['DD-API-KEY'] = this._options.apiKey
+      }
+
+      const url = `${domain}/api/v2/logs`
+      const result = await axios.post(url, data, { headers, params })
       return result
     } catch (err) {
       console.error('The previous log have not been saved')
